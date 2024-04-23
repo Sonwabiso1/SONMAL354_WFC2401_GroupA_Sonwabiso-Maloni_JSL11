@@ -55,39 +55,73 @@ let activeBoard = ""
 
 // Extracts unique board names from tasks
 // TASK: FIX BUGS
+// Function to fetch tasks, extract unique board names, and display them along with tasks for the active board
 function fetchAndDisplayBoardsAndTasks() {
+  // Retrieve all tasks (assuming from a local storage or a similar service)
   const tasks = getTasks();
+
+  // Extract unique board names from the tasks, filtering out any undefined or null values
   const boards = [...new Set(tasks.map(task => task.board).filter(Boolean))];
+
+  // Display these boards as buttons in the UI
   displayBoards(boards);
+
+  // Check if there are any boards available
   if (boards.length > 0) {
-    const localStorageBoard = JSON.parse(localStorage.getItem("activeBoard"))
-    activeBoard = localStorageBoard ? localStorageBoard :  boards[0]; 
-    elements.headerBoardName.textContent = activeBoard
-    styleActiveBoard(activeBoard)
+    // Attempt to retrieve the 'activeBoard' from local storage to maintain state across sessions
+    const localStorageBoard = JSON.parse(localStorage.getItem("activeBoard"));
+
+    // Determine the active board; prefer the stored value, otherwise default to the first board
+    activeBoard = localStorageBoard ? localStorageBoard : boards[0];
+
+    // Display the active board name in the UI
+    elements.headerBoardName.textContent = activeBoard;
+
+    // Apply specific styles and adjustments for the active board
+    styleActiveBoard(activeBoard);
+
+    // Refresh the task display UI, filtering tasks to only show those for the active board
     refreshTasksUI();
   }
 }
 
+
 // Creates different boards in the DOM
 // TASK: Fix Bugs
+// Function to display all the boards as buttons in the sidebar navigation
 function displayBoards(boards) {
+  // Access the container element for the boards
   const boardsContainer = elements.boardsNavLinksDiv;
-  boardsContainer.innerHTML = ''; // Clears the container
+  // Clear the existing content in the boards container to avoid duplicates
+  boardsContainer.innerHTML = '';
+
+  // Iterate through each board name provided in the boards array
   boards.forEach(board => {
+    // Create a new button element for each board
     const boardElement = document.createElement("button");
-    boardElement.textContent = board;
+    // Set the button text to the board name
+    boardElement.textContent = board; 
+
     boardElement.classList.add("board-btn");
-    boardElement.addEventListener("click", ()=> { 
-      elements.headerBoardName.textContent = board;
+
+    boardElement.addEventListener("click", () => { 
+
+      elements.headerBoardName.textContent = board;  
+      // Filter and display tasks associated with the clicked board
       filterAndDisplayTasksByBoard(board);
-      activeBoard = board //assigns active board
-      localStorage.setItem("activeBoard", JSON.stringify(activeBoard))
-      styleActiveBoard(activeBoard)
+      // Update the active board variable
+      activeBoard = board;
+      // Save the new active board to local storage
+      localStorage.setItem("activeBoard", JSON.stringify(activeBoard));
+      // Apply styling specific to the active board
+      styleActiveBoard(activeBoard);
     });
+    
+    // Append the newly created button to the boards container
     boardsContainer.appendChild(boardElement);
   });
-
 }
+
 
 // Filters tasks corresponding to the board name and displays them on the DOM.
 // TASK: Fix Bugs
@@ -115,7 +149,7 @@ function filterAndDisplayTasksByBoard(boardName) {
       taskElement.setAttribute('data-task-id', task.id);
 
       // Listen for a click event on each task and open a modal
-      taskElement.click() => { 
+      taskElement.addEventListener("click",() => { 
         openEditTaskModal(task);
       });
 
@@ -132,7 +166,7 @@ function refreshTasksUI() {
 // Styles the active board by adding an active class
 // TASK: Fix Bugs
 function styleActiveBoard(boardName) {
-  document.querySelectorAll('.board-btn').foreach(btn => { 
+  document.querySelectorAll('.edit-board-btn').foreach(btn => { 
     
     if(btn.textContent === boardName) {
       btn.add('active') 
@@ -170,46 +204,49 @@ function addTaskToUI(task) {
 
 
 function setupEventListeners() {
-  // Cancel editing task event listener
+  // Set up event listener to cancel editing a task
   const cancelEditBtn = document.getElementById('cancel-edit-btn');
-  cancelEditBtn.click() => toggleModal(false, elements.editTaskModal));
+  cancelEditBtn.addEventListener('click', () => toggleModal(false, elements.editTaskModal));
 
-  // Cancel adding new task event listener
+  // Set up event listener to cancel adding a new task
   const cancelAddTaskBtn = document.getElementById('cancel-add-task-btn');
   cancelAddTaskBtn.addEventListener('click', () => {
     toggleModal(false);
     elements.filterDiv.style.display = 'none'; // Also hide the filter overlay
   });
 
-  // Clicking outside the modal to close it
+  // Set up event listener to close modal when clicking outside of it
   elements.filterDiv.addEventListener('click', () => {
     toggleModal(false);
     elements.filterDiv.style.display = 'none'; // Also hide the filter overlay
   });
 
-  // Show sidebar event listener
-  elements.hideSideBarBtn.click() => toggleSidebar(false));
-  elements.showSideBarBtn.click() => toggleSidebar(true));
+  // Event listeners for showing and hiding the sidebar
+  elements.hideSideBarBtn.addEventListener('click', () => toggleSidebar(false));
+  elements.showSideBarBtn.addEventListener('click', () => toggleSidebar(true));
 
-  // Theme switch event listener
+  // Event listener for switching themes
   elements.themeSwitch.addEventListener('change', toggleTheme);
 
-  // Show Add New Task Modal event listener
+  // Set up event listener to show the modal for adding a new task
   elements.createNewTaskBtn.addEventListener('click', () => {
-    toggleModal(true);
+    toggleModal(true, elements.newTaskModal); // Assuming you might want to specify which modal to show
     elements.filterDiv.style.display = 'block'; // Also show the filter overlay
   });
 
-  // Add new task form submission event listener
-  elements.modalWindow.addEventListener('submit',  (event) => {
-    addTask(event)
+  // Set up event listener for the submission of the new task form
+  elements.modalWindow.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the form from submitting traditionally
+    addTask(event);
   });
 }
+
+
 
 // Toggles tasks modal
 // Task: Fix bugs
 function toggleModal(show, modal = elements.modalWindow) {
-  modal.style.display = show ? 'block' => 'none'; 
+  modal.style.display = show ? 'block' : 'none'; 
 }
 
 /*************************************************************************************************************************************************
