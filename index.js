@@ -6,8 +6,8 @@ import {
   patchTask,
   putTask,
   deleteTask
-} from './utils/taskFunction.js';
-import initialData from './initialData.js';
+} from './utils/taskFunctions.js';
+import {initialData} from './initialData.js';
 
 
 /*************************************************************************************************************************************************
@@ -91,7 +91,7 @@ function fetchAndDisplayBoardsAndTasks() {
 // Function to display all the boards as buttons in the sidebar navigation
 function displayBoards(boards) {
   // Access the container element for the boards
-  const boardsContainer = elements.boardsNavLinksDiv;
+  const boardsContainer = document.getElementById('boards-nav-links-div');
   // Clear the existing content in the boards container to avoid duplicates
   boardsContainer.innerHTML = '';
 
@@ -166,7 +166,7 @@ function refreshTasksUI() {
 // Styles the active board by adding an active class
 // TASK: Fix Bugs
 function styleActiveBoard(boardName) {
-  document.querySelectorAll('.edit-board-btn').foreach(btn => { 
+  document.querySelectorAll('.board-btn').foreach(btn => { 
     
     if(btn.textContent === boardName) {
       btn.add('active') 
