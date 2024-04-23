@@ -27,27 +27,48 @@ function initializeData() {
 // TASK: Get elements from the DOM
 // Selecting elements from the DOM and storing them in an object
 const elements = {
-  sideBarDiv: document.getElementById('side-bar-div'),
-  logo: document.getElementById('logo'),
-  boardsNavLinksDiv: document.getElementById('boards-nav-links-div'),
-  switchInput: document.getElementById('switch'),
-  labelCheckboxTheme: document.getElementById('label-checkbox-theme'),
-  showSideBarBtn: document.getElementById('show-side-bar-btn'),
-  headerBoardName: document.getElementById('header-board-name'),
-  addNewTaskBtn: document.getElementById('add-new-task-btn'),
-  editBoardBtn: document.getElementById('edit-board-btn'),
-  deleteBoardBtn: document.getElementById('deleteBoardBtn'),
-  todoTasksContainer: document.querySelector('.column-div[data-status="todo"] .tasks-container'),
-  doingTasksContainer: document.querySelector('.column-div[data-status="doing"] .tasks-container'),
-  doneTasksContainer: document.querySelector('.column-div[data-status="done"] .tasks-container'),
-  newTaskModalWindow: document.getElementById('new-task-modal-window'),
-  newTaskTitleInput: document.getElementById('title-input'),
-  newTaskDescInput: document.getElementById('desc-input'),
-  newTaskSelectStatus: document.getElementById('select-status'),
-  editTaskModalWindow: document.querySelector('.edit-task-modal-window'),
-  editTaskTitleInput: document.getElementById('edit-task-title-input'),
-  editTaskDescInput: document.getElementById('edit-task-desc-input'),
-  editTaskSelectStatus: document.getElementById('edit-select-status')
+  // Navigation Sidebar elements
+  sideBar: document.querySelector(".side-bar"),
+  logo: document.getElementById("logo"),
+  boardsNavLinks: document.getElementById("boards-nav-links-div"),
+  darkThemeIcon: document.getElementById("icon-dark"),
+  themeSwitch: document.getElementById("switch"),
+  lightThemeIcon: document.getElementById("icon-light"),
+  hideSideBarBtn: document.getElementById("hide-side-bar-btn"),
+  showSideBarBtn: document.getElementById("show-side-bar-btn"),
+
+  // Header
+  headerBoardName: document.getElementById("header-board-name"),
+  addNewTaskBtn: document.getElementById("add-new-task-btn"),
+  editBoardBtn: document.getElementById("edit-board-btn"),
+
+  // Task Columns
+  columnDivs: document.querySelectorAll(".column-div"),
+  todoColumn: document.querySelector('.column-div[data-status="todo"]'),
+  doingColumn: document.querySelector('.column-div[data-status="doing"]'),
+  doneColumn: document.querySelector('.column-div[data-status="done"]'),
+  filterDiv: document.getElementById("filterDiv"),
+
+  // New Task Modal
+  titleInput: document.getElementById("title-input"),
+  descInput: document.getElementById("desc-input"),
+  selectStatus: document.getElementById("select-status"),
+  createNewTaskBtn: document.getElementById("create-task-btn"),
+  cancelAddTaskBtn: document.getElementById("cancel-add-task-btn"),
+  newTaskModal: document.getElementById("new-task-modal-window"),
+  modalWindow: document.getElementById("new-task-modal-window"),
+
+  // Edit Task Modal
+  editTaskModal: document.querySelector(".edit-task-modal-window"),
+  editTaskTitleInput: document.getElementById("edit-task-title-input"),
+  editTaskDescInput: document.getElementById("edit-task-desc-input"),
+  editSelectStatus: document.getElementById("edit-select-status"),
+  saveTaskChangesBtn: document.getElementById("save-task-changes-btn"),
+  cancelEditBtn: document.getElementById("cancel-edit-btn"),
+  deleteTaskBtn: document.getElementById("delete-task-btn"),
+
+  // Filter
+  filterDiv: document.getElementById("filterDiv"),
 };
 
 
@@ -258,7 +279,10 @@ function addTask(event) {
 
   //Assign user input to the task object
     const task = {
-      
+      title: elements.titleInput.value,
+      description: elements.descInput.value,
+      status: elements.selectStatus.value,
+      board: activeBoard
     };
     const newTask = createNewTask(task);
     if (newTask) {
