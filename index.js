@@ -1,5 +1,13 @@
 // TASK: import helper functions from utils
-// TASK: import initialData
+// Import the functions from taskFunction.js
+import {
+  getTasks,
+  createNewTask,
+  patchTask,
+  putTask,
+  deleteTask
+} from './utils/taskFunction.js';
+import initialData from './initialData.js';
 
 
 /*************************************************************************************************************************************************
@@ -17,9 +25,31 @@ function initializeData() {
 }
 
 // TASK: Get elements from the DOM
+// Selecting elements from the DOM and storing them in an object
 const elements = {
+  sideBarDiv: document.getElementById('side-bar-div'),
+  logo: document.getElementById('logo'),
+  boardsNavLinksDiv: document.getElementById('boards-nav-links-div'),
+  switchInput: document.getElementById('switch'),
+  labelCheckboxTheme: document.getElementById('label-checkbox-theme'),
+  showSideBarBtn: document.getElementById('show-side-bar-btn'),
+  headerBoardName: document.getElementById('header-board-name'),
+  addNewTaskBtn: document.getElementById('add-new-task-btn'),
+  editBoardBtn: document.getElementById('edit-board-btn'),
+  deleteBoardBtn: document.getElementById('deleteBoardBtn'),
+  todoTasksContainer: document.querySelector('.column-div[data-status="todo"] .tasks-container'),
+  doingTasksContainer: document.querySelector('.column-div[data-status="doing"] .tasks-container'),
+  doneTasksContainer: document.querySelector('.column-div[data-status="done"] .tasks-container'),
+  newTaskModalWindow: document.getElementById('new-task-modal-window'),
+  newTaskTitleInput: document.getElementById('title-input'),
+  newTaskDescInput: document.getElementById('desc-input'),
+  newTaskSelectStatus: document.getElementById('select-status'),
+  editTaskModalWindow: document.querySelector('.edit-task-modal-window'),
+  editTaskTitleInput: document.getElementById('edit-task-title-input'),
+  editTaskDescInput: document.getElementById('edit-task-desc-input'),
+  editTaskSelectStatus: document.getElementById('edit-select-status')
+};
 
-}
 
 let activeBoard = ""
 
@@ -31,7 +61,7 @@ function fetchAndDisplayBoardsAndTasks() {
   displayBoards(boards);
   if (boards.length > 0) {
     const localStorageBoard = JSON.parse(localStorage.getItem("activeBoard"))
-    activeBoard = localStorageBoard ? localStorageBoard ;  boards[0]; 
+    activeBoard = localStorageBoard ? localStorageBoard :  boards[0]; 
     elements.headerBoardName.textContent = activeBoard
     styleActiveBoard(activeBoard)
     refreshTasksUI();
@@ -41,19 +71,19 @@ function fetchAndDisplayBoardsAndTasks() {
 // Creates different boards in the DOM
 // TASK: Fix Bugs
 function displayBoards(boards) {
-  const boardsContainer = document.getElementById("boards-nav-links-div");
+  const boardsContainer = elements.boardsNavLinksDiv;
   boardsContainer.innerHTML = ''; // Clears the container
   boards.forEach(board => {
     const boardElement = document.createElement("button");
     boardElement.textContent = board;
     boardElement.classList.add("board-btn");
-    boardElement.click()  { 
+    boardElement.addEventListener("click", ()=> { 
       elements.headerBoardName.textContent = board;
       filterAndDisplayTasksByBoard(board);
       activeBoard = board //assigns active board
       localStorage.setItem("activeBoard", JSON.stringify(activeBoard))
       styleActiveBoard(activeBoard)
-    };
+    });
     boardsContainer.appendChild(boardElement);
   });
 
