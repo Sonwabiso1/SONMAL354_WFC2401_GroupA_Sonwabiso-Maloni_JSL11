@@ -35,22 +35,16 @@ const elements = {
   sideBar: document.querySelector(".side-bar"),
   logo: document.getElementById("logo"),
   boardsNavLinks: document.getElementById("boards-nav-links-div"),
-  darkThemeIcon: document.getElementById("icon-dark"),
   themeSwitch: document.getElementById("switch"),
-  lightThemeIcon: document.getElementById("icon-light"),
   hideSideBarBtn: document.getElementById("hide-side-bar-btn"),
   showSideBarBtn: document.getElementById("show-side-bar-btn"),
 
   // Header
   headerBoardName: document.getElementById("header-board-name"),
   addNewTaskBtn: document.getElementById("add-new-task-btn"),
-  editBoardBtn: document.getElementById("edit-board-btn"),
 
   // Task Columns
   columnDivs: document.querySelectorAll(".column-div"),
-  todoColumn: document.querySelector('.column-div[data-status="todo"]'),
-  doingColumn: document.querySelector('.column-div[data-status="doing"]'),
-  doneColumn: document.querySelector('.column-div[data-status="done"]'),
   filterDiv: document.getElementById("filterDiv"),
 
   // New Task Modal
@@ -116,7 +110,7 @@ function fetchAndDisplayBoardsAndTasks() {
 // Function to display all the boards as buttons in the sidebar navigation
 function displayBoards(boards) {
   // Access the container element for the boards
-  const boardsContainer = document.getElementById('boards-nav-links-div');
+  const boardsContainer = elements.boardsNavLinks;
   // Clear the existing content in the boards container to avoid duplicates
   boardsContainer.innerHTML = '';
 
