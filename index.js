@@ -16,14 +16,17 @@ import { initialData } from './initialData.js';
 
 // Function checks if local storage already has data, if not it loads initialData to localStorage
 function initializeData() {
-  if (!localStorage.getItem('tasks')) {
+  const tasks = JSON.parse(localStorage.getItem('tasks'));
+  if (!tasks || tasks.length === 0) {
     localStorage.setItem('tasks', JSON.stringify(initialData)); 
-    localStorage.setItem('showSideBar', 'true')
+    localStorage.setItem('showSideBar', 'true');
+    console.log('Data initialized in localStorage');
   } else {
     console.log('Data already exists in localStorage');
-    console.log(localStorage.getItem('tasks'))
+    console.log(tasks);
   }
 }
+
 
 // TASK: Get elements from the DOM
 // Selecting elements from the DOM and storing them in an object
@@ -333,19 +336,35 @@ function toggleTheme() {
 
 
 function openEditTaskModal(task) {
+  toggleModal(true, elements.editTaskModal); // Show the edit task modal
+
   // Set task details in modal inputs
-  
+  const titleInput = elements.editTaskTitleInput;
+  const descriptionInput = elements.editTaskDescInput;
+  titleInput.value = task.title;
+  descriptionInput.value = task.description;
+
 
   // Get button elements from the task modal
+  const saveChangesButton = elements.saveTaskChangesBtn;
+  const deleteButton = elements.deleteTaskBtn;
 
 
   // Call saveTaskChanges upon click of Save Changes button
- 
+  saveChangesButton.addEventListener('click', () => {
+    saveTaskChanges(task.id);
+    toggleModal(false, elements.editTaskModal); // hide the edit task modal
+  })
 
   // Delete task using a helper function and close the task modal
 
+  deleteButton.addEventListener('click', () => {
+    deleteTask(task.id);
+    toggleModal(false, elements.editTaskModal); // hide the edit task modal
+    refreshTasksUI();
+  })
 
-  toggleModal(true, elements.editTaskModal); // Show the edit task modal
+  
 }
 
 function saveTaskChanges(taskId) {
