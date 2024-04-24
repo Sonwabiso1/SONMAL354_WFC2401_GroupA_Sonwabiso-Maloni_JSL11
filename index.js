@@ -298,13 +298,25 @@ function addTask(event) {
 
 
 function toggleSidebar(show) {
-  document.body.classList.toggle('show-sidebar', show);
+  const sideBar = elements.sideBar;
+  const showButton = elements.showSideBarBtn;
+  const hideButton = elements.hideSideBarBtn;
+
+  if (show) {
+    sideBar.classList.add('show-sidebar');
+    showButton.style.display = 'none';
+    hideButton.style.display = 'block';
+  } else {
+    sideBar.classList.remove('show-sidebar');
+    showButton.style.display = 'block';
+    hideButton.style.display = 'none';
+  }
 }
 
-function toggleTheme(isLightTheme) {
-  if(!isLightTheme){
-    document.body.classList.toggle('light-theme');
-  }
+
+function toggleTheme() {
+  document.body.classList.toggle('light-theme');
+  document.body.classList.toggle('dark-theme');
 }
 
 
