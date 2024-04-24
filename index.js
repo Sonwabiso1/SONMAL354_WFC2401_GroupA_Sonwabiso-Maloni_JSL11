@@ -296,11 +296,13 @@ function addTask(event) {
 
 
 function toggleSidebar(show) {
- 
+  document.body.classList.toggle('show-sidebar', show);
 }
 
-function toggleTheme() {
- 
+function toggleTheme(isLightTheme) {
+  if(!isLightTheme){
+    document.body.classList.toggle('light-theme');
+  }
 }
 
 
@@ -343,10 +345,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function init() {
+  initializeData();
   setupEventListeners();
   const showSidebar = localStorage.getItem('showSideBar') === 'true';
   toggleSidebar(showSidebar);
   const isLightTheme = localStorage.getItem('light-theme') === 'enabled';
-  document.body.classList.toggle('light-theme', isLightTheme);
+  toggleTheme(isLightTheme);
   fetchAndDisplayBoardsAndTasks(); // Initial display of boards and tasks
 }
