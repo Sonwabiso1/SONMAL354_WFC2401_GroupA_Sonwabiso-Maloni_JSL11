@@ -57,7 +57,7 @@ const elements = {
   titleInput: document.getElementById("title-input"),
   descInput: document.getElementById("desc-input"),
   selectStatus: document.getElementById("select-status"),
-  createNewTaskBtn: document.getElementById("create-task-btn"),
+  addNewTaskBtn: document.getElementById("add-new-task-btn"),
   cancelAddTaskBtn: document.getElementById("cancel-add-task-btn"),
   newTaskModal: document.getElementById("new-task-modal-window"),
   modalWindow: document.getElementById("new-task-modal-window"),
@@ -255,7 +255,7 @@ function setupEventListeners() {
   elements.themeSwitch.addEventListener('change', toggleTheme);
 
   // Set up event listener to show the modal for adding a new task
-  elements.createNewTaskBtn.addEventListener('click', () => {
+  elements.addNewTaskBtn.addEventListener('click', () => {
     toggleModal(true, elements.newTaskModal); // Assuming you might want to specify which modal to show
     elements.filterDiv.style.display = 'block'; // Also show the filter overlay
   });
