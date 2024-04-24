@@ -315,8 +315,19 @@ function toggleSidebar(show) {
 
 
 function toggleTheme() {
-  document.body.classList.toggle('light-theme');
-  document.body.classList.toggle('dark-theme');
+  const isLightTheme = document.body.classList.contains('light-theme');
+  
+  if (isLightTheme) {
+      document.body.classList.remove('light-theme');
+      logo.src = './assets/logo-dark.svg'; // Set the src for dark theme
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark'); // Store theme preference in localStorage
+  } else {
+      document.body.classList.remove('dark-theme');
+      logo.src = './assets/logo-light.svg'; // Set the src for light theme
+      document.body.classList.add('light-theme');
+      localStorage.setItem('theme', 'light'); // Store theme preference in localStorage
+  }
 }
 
 
@@ -361,9 +372,18 @@ document.addEventListener('DOMContentLoaded', function() {
 function init() {
   initializeData();
   setupEventListeners();
+  
+  // Toggle sidebar based on stored preference
   const showSidebar = localStorage.getItem('showSideBar') === 'true';
   toggleSidebar(showSidebar);
-  const isLightTheme = localStorage.getItem('light-theme') === 'enabled';
-  toggleTheme(isLightTheme);
+  
+  // Toggle theme based on stored preference or default to light theme
+  const storedTheme = localStorage.getItem('theme');
+  if (storedTheme === 'dark') {
+      document.body.classList.add('dark-theme');
+  } else {
+      document.body.classList.remove('dark-theme');
+  }
+  
   fetchAndDisplayBoardsAndTasks(); // Initial display of boards and tasks
 }
