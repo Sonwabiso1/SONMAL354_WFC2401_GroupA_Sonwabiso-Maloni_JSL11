@@ -341,8 +341,11 @@ function openEditTaskModal(task) {
   // Set task details in modal inputs
   const titleInput = elements.editTaskTitleInput;
   const descriptionInput = elements.editTaskDescInput;
+  const statusInput =   elements.editSelectStatus;
+
   titleInput.value = task.title;
   descriptionInput.value = task.description;
+  statusInput.value = task.status;
 
 
   // Get button elements from the task modal
@@ -354,6 +357,7 @@ function openEditTaskModal(task) {
   saveChangesButton.addEventListener('click', () => {
     saveTaskChanges(task.id);
     toggleModal(false, elements.editTaskModal); // hide the edit task modal
+    refreshTasksUI()
   })
 
   // Delete task using a helper function and close the task modal
@@ -369,17 +373,25 @@ function openEditTaskModal(task) {
 
 function saveTaskChanges(taskId) {
   // Get new user inputs
-  
+  const titleInput = elements.editTaskTitleInput.value;
+  const descriptionInput = elements.editTaskDescInput.value;
+  const updatedStatus = document.getElementById('edit-select-status').value;
 
   // Create an object with the updated task details
-
+  const updatedTask = {
+    id: taskId,
+    title: titleInput,
+    description: descriptionInput,
+    status: updatedStatus,
+    board: activeBoard
+  };
 
   // Update task using a hlper functoin
- 
-
+  putTask(taskId, updatedTask);
+  
   // Close the modal and refresh the UI to reflect the changes
-
-  refreshTasksUI();
+  toggleModal(false); // Hide the modal
+  refreshTasksUI(); // Refresh the UI
 }
 
 /*************************************************************************************************************************************************/
