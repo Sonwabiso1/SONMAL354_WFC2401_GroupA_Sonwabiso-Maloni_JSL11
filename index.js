@@ -21,6 +21,7 @@ function initializeData() {
     localStorage.setItem('showSideBar', 'true')
   } else {
     console.log('Data already exists in localStorage');
+    console.log(localStorage.getItem('tasks'))
   }
 }
 
@@ -148,7 +149,7 @@ function displayBoards(boards) {
 // TASK: Fix Bugs
 function filterAndDisplayTasksByBoard(boardName) {
   const tasks = getTasks(); // Fetch tasks from a simulated local storage function
-  const filteredTasks = tasks.filter(task => task.board = boardName);
+  const filteredTasks = tasks.filter(task => task.board === boardName); // Fix: Use strict equality operator (===) instead of assignment operator (=)
 
   // Ensure the column titles are set outside of this function or correctly initialized before this function runs
 
@@ -163,7 +164,7 @@ function filterAndDisplayTasksByBoard(boardName) {
     const tasksContainer = document.createElement("div");
     column.appendChild(tasksContainer);
 
-    filteredTasks.filter(task => task.status = status).forEach(task => { 
+    filteredTasks.filter(task => task.status === status).forEach(task => { // Fix: Use strict equality operator (===) instead of assignment operator (=)
       const taskElement = document.createElement("div");
       taskElement.classList.add("task-div");
       taskElement.textContent = task.title;
@@ -178,6 +179,7 @@ function filterAndDisplayTasksByBoard(boardName) {
     });
   });
 }
+
 
 
 function refreshTasksUI() {
