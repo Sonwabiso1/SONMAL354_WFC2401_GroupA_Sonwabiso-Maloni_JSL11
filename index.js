@@ -380,12 +380,12 @@ function saveTaskChanges(taskId) {
     board: activeBoard
   };
 
-  // Update task using a hlper functoin
+  // Update task using a helper function
   putTask(taskId, updatedTask);
   
   // Close the modal and refresh the UI to reflect the changes
   toggleModal(false); // Hide the modal
-  refreshTasksUI(); // Refresh the UI
+  // refreshTasksUI();  Refresh the UI
 }
 
 /*************************************************************************************************************************************************/
